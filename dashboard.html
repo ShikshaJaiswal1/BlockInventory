@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | BlockInventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .badge-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .dashboard-sidebar {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            height: fit-content;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        .sidebar-link:hover {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+        .sidebar-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-btn:hover {
+            color: var(--text-dark);
+        }
+        .view-item-details {
+            display: grid;
+            gap: 1rem;
+        }
+        .view-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background-color: var(--bg-color);
+            border-radius: 0.5rem;
+        }
+        .view-item-label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        .view-item-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                BlockInventory
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <div>
+                    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Inventory Dashboard</h1>
+                    <p style="color: var(--text-light);">Manage your inventory with blockchain-powered transparency</p>
+                </div>
+                <button class="btn btn-primary">+ Add New Item</button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Items</div>
+                    <div class="stat-card-value">1,250</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Low Stock Items</div>
+                    <div class="stat-card-value">45</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Orders</div>
+                    <div class="stat-card-value">320</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Pending Orders</div>
+                    <div class="stat-card-value">12</div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem; margin-top: 2rem;">
+                <!-- Sidebar -->
+                <div class="dashboard-sidebar">
+                    <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">Menu</h3>
+                    <a href="#inventory" class="sidebar-link active">📦 Inventory</a>
+                    <a href="#orders" class="sidebar-link">📋 Orders</a>
+                    <a href="#suppliers" class="sidebar-link">👥 Suppliers</a>
+                    <a href="#warehouses" class="sidebar-link">🏢 Warehouses</a>
+                    <a href="#reports" class="sidebar-link">📊 Reports</a>
+                    <a href="#settings" class="sidebar-link">⚙️ Settings</a>
+                </div>
+
+                <!-- Main Content -->
+                <div>
+                    <!-- Inventory Table -->
+                    <div class="table-container">
+                        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                                <h2 style="font-size: 1.5rem; font-weight: 600;">Current Inventory</h2>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <input type="text" placeholder="Search..." style="padding: 0.5rem 1rem; border: 2px solid var(--border-color); border-radius: 0.5rem; min-width: 200px;">
+                                    <select style="padding: 0.5rem 1rem; border: 2px solid var(--border-color); border-radius: 0.5rem;">
+                                        <option>All Locations</option>
+                                        <option>Warehouse 1</option>
+                                        <option>Warehouse 2</option>
+                                        <option>Warehouse 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>INV001</td>
+                                    <td>Product A</td>
+                                    <td>150</td>
+                                    <td>Warehouse 1</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-primary view-item-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" 
+                                                data-id="INV001" 
+                                                data-name="Product A" 
+                                                data-quantity="150" 
+                                                data-location="Warehouse 1" 
+                                                data-status="In Stock">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV002</td>
+                                    <td>Product B</td>
+                                    <td>25</td>
+                                    <td>Warehouse 2</td>
+                                    <td><span class="badge badge-warning">Low Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-primary view-item-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" 
+                                                data-id="INV002" 
+                                                data-name="Product B" 
+                                                data-quantity="25" 
+                                                data-location="Warehouse 2" 
+                                                data-status="Low Stock">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV003</td>
+                                    <td>Product C</td>
+                                    <td>300</td>
+                                    <td>Warehouse 1</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-primary view-item-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" 
+                                                data-id="INV003" 
+                                                data-name="Product C" 
+                                                data-quantity="300" 
+                                                data-location="Warehouse 1" 
+                                                data-status="In Stock">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV004</td>
+                                    <td>Product D</td>
+                                    <td>5</td>
+                                    <td>Warehouse 3</td>
+                                    <td><span class="badge badge-error">Critical</span></td>
+                                    <td>
+                                        <button class="btn btn-primary view-item-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" 
+                                                data-id="INV004" 
+                                                data-name="Product D" 
+                                                data-quantity="5" 
+                                                data-location="Warehouse 3" 
+                                                data-status="Critical">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV005</td>
+                                    <td>Product E</td>
+                                    <td>200</td>
+                                    <td>Warehouse 2</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-primary view-item-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;" 
+                                                data-id="INV005" 
+                                                data-name="Product E" 
+                                                data-quantity="200" 
+                                                data-location="Warehouse 2" 
+                                                data-status="In Stock">View</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="card" style="margin-top: 2rem;">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Recent Blockchain Transactions</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction Hash</th>
+                                        <th>Type</th>
+                                        <th>Product</th>
+                                        <th>Timestamp</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="font-family: monospace; font-size: 0.875rem;">0x7a3b9c2d...</td>
+                                        <td>Stock Update</td>
+                                        <td>Product A</td>
+                                        <td>2 hours ago</td>
+                                        <td><span class="badge badge-success">Confirmed</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family: monospace; font-size: 0.875rem;">0x9f4e1a8b...</td>
+                                        <td>Reorder Trigger</td>
+                                        <td>Product D</td>
+                                        <td>5 hours ago</td>
+                                        <td><span class="badge badge-success">Confirmed</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family: monospace; font-size: 0.875rem;">0x3c6d8f2a...</td>
+                                        <td>Shipment Received</td>
+                                        <td>Product C</td>
+                                        <td>1 day ago</td>
+                                        <td><span class="badge badge-success">Confirmed</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #60a5fa;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    <span style="font-size: 1.25rem; font-weight: 700; color: white;">BlockInventory</span>
+                </div>
+                <p style="font-size: 0.875rem; line-height: 1.6;">
+                    Decentralized Inventory Management System powered by blockchain technology.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 info@blockinventory.com</li>
+                    <li>📱 +91 9118330401</li>
+                    <li>📍 PSIT, Kanpur, India</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Team</h3>
+                <p style="font-size: 0.875rem;">Team ID: 26_CS_4F_11</p>
+                <p style="font-size: 0.875rem;">PSIT, CSE - 3F</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BlockInventory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Item</h2>
+                <button class="close-btn" onclick="closeAddItemModal()">&times;</button>
+            </div>
+            <form id="addItemForm" onsubmit="handleAddItem(event)">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" name="productName" required placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" required min="1" placeholder="Enter quantity">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select id="location" name="location" required>
+                        <option value="">Select location</option>
+                        <option value="Warehouse 1">Warehouse 1</option>
+                        <option value="Warehouse 2">Warehouse 2</option>
+                        <option value="Warehouse 3">Warehouse 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description (Optional)</label>
+                    <textarea id="description" name="description" placeholder="Enter product description"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Item</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddItemModal()" style="flex: 1;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Item Modal -->
+    <div id="viewItemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Item Details</h2>
+                <button class="close-btn" onclick="closeViewItemModal()">&times;</button>
+            </div>
+            <div class="view-item-details">
+                <div class="view-item-row">
+                    <span class="view-item-label">Product ID:</span>
+                    <span class="view-item-value" id="viewProductId">-</span>
+                </div>
+                <div class="view-item-row">
+                    <span class="view-item-label">Product Name:</span>
+                    <span class="view-item-value" id="viewProductName">-</span>
+                </div>
+                <div class="view-item-row">
+                    <span class="view-item-label">Quantity:</span>
+                    <span class="view-item-value" id="viewQuantity">-</span>
+                </div>
+                <div class="view-item-row">
+                    <span class="view-item-label">Location:</span>
+                    <span class="view-item-value" id="viewLocation">-</span>
+                </div>
+                <div class="view-item-row">
+                    <span class="view-item-label">Status:</span>
+                    <span class="view-item-value">
+                        <span class="badge" id="viewStatus">-</span>
+                    </span>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="btn btn-primary" onclick="closeViewItemModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initDashboard === 'function') {
+                initDashboard();
+            }
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+

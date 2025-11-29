@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | BlockInventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                BlockInventory
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" class="btn btn-primary">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Signup Form -->
+    <section class="section">
+        <div class="form-container">
+            <h2 class="form-title">Create Your Account</h2>
+            <p class="form-subtitle">Join BlockInventory and start managing your inventory securely</p>
+
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a password (min 6 characters)" minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password" minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
+                        <option value="admin">Admin</option>
+                        <option value="warehouse_manager">Warehouse Manager</option>
+                        <option value="supplier">Supplier</option>
+                        <option value="customer">Customer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="cursor: pointer; font-weight: normal;">
+                        <input type="checkbox" required style="width: auto; margin-right: 0.5rem;">
+                        I agree to the <a href="#" style="color: var(--primary-color);">Terms and Conditions</a> and <a href="#" style="color: var(--primary-color);">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full">Create Account</button>
+            </form>
+
+            <div class="form-footer">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #60a5fa;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    <span style="font-size: 1.25rem; font-weight: 700; color: white;">BlockInventory</span>
+                </div>
+                <p style="font-size: 0.875rem; line-height: 1.6;">
+                    Decentralized Inventory Management System powered by blockchain technology.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 info@blockinventory.com</li>
+                    <li>📱 +91 9118330401</li>
+                    <li>📍 PSIT, Kanpur, India</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Team</h3>
+                <p style="font-size: 0.875rem;">Team ID: 26_CS_4F_11</p>
+                <p style="font-size: 0.875rem;">PSIT, CSE - 3F</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BlockInventory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Password confirmation validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                document.getElementById('confirmPassword').style.borderColor = '#ef4444';
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
+
