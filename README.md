@@ -9,7 +9,7 @@ A modern, responsive frontend for the Decentralized Inventory Management System 
 - **Team ID**: 26_CS_4F_11
 - **Institution**: Pranveer Singh Institute of Technology
 - **Department**: Computer Science and Engineering
-- **Section**: 3F
+- **Section**: 4F
 
 ### Team Members
 
